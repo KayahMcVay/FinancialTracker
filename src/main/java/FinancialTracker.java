@@ -213,14 +213,13 @@ public class FinancialTracker {
 
             displayDeposits(transactions);
 
-
         } else if (userChoice.equalsIgnoreCase("p")){
 
             displayPayments(transactions);
 
-
         } else if (userChoice.equalsIgnoreCase("r")) {
 
+            displayReportsScreen(scanner, transactions);
 
         } else if (userChoice.equalsIgnoreCase("h")) {
 
@@ -273,13 +272,154 @@ public class FinancialTracker {
         }
     }
 
-    public static void reportsScreen(){
+    public static void displayReportsScreen(Scanner scanner, ArrayList<Transaction> transactions){
 
 
+        System.out.println("\n-- Reports Screen --\n");
+
+        System.out.println("1 - Month To Date");
+        System.out.println("2 - Previous Month");
+        System.out.println("3 - Year To Date");
+        System.out.println("4 - Previous Year");
+        System.out.println("5 - Search By Vendor");
+        System.out.println("0 - Back");
+
+
+        System.out.print("\nChose one of the above options:\n");
+
+        String userChoice = scanner.nextLine();
+
+        switch (userChoice){
+
+            case "1":
+
+                filterTransactionByMonthToDate(transactions);
+                break;
+
+            case "2":
+
+                filterTransactionByPreviousMonth(transactions);
+
+                break;
+
+            case "3":
+
+                filterTransactionByYearToDate(transactions);
+
+                break;
+
+            case "4":
+
+                filterTransactionByPreviousYear(transactions);
+
+                break;
+
+            case "5":
+
+                searchByVendor();
+
+                break;
+
+            case "0":
+
+                displayReportsScreen(scanner, transactions);
+
+            default:
+                System.out.println("Invalid Input, Try Again!");
+                displayReportsScreen(scanner, transactions);
+
+        }
+    }
+
+    public static void filterTransactionByMonthToDate(ArrayList<Transaction> transactions){
+
+        ArrayList<Transaction> allEntries = loadTransactions(transactions);
+
+        for (int i = allEntries.size() - 1; i >= 0; i--) {
+
+            LocalDate currentDate = LocalDate.now();
+
+            int currentYear = currentDate.getYear();
+
+            int allEntireYears = transactions.get(i).getDate().getYear();
+
+            if(transactions.get(i).getDate().getMonth().equals(currentDate.getMonth()) && allEntireYears == currentYear){
+
+                System.out.println(transactions.get(i));
+
+            }
+        }
+
+    }
+
+    public static void filterTransactionByPreviousMonth(ArrayList<Transaction> transactions){
+
+        ArrayList<Transaction> allEntries = loadTransactions(transactions);
+
+        for (int i = allEntries.size() - 1; i >= 0; i--) {
+
+            LocalDate currentDate = LocalDate.now();
+
+            int currentYear = currentDate.getYear();
+
+            LocalDate earlier = currentDate.minusMonths(1);
+
+            int allEntireYears = transactions.get(i).getDate().getYear();
+
+            if(transactions.get(i).getDate().getMonth().equals(earlier.getMonth()) && allEntireYears == currentYear){
+
+                System.out.println(transactions.get(i));
+
+            }
+        }
+    }
+
+    public static void filterTransactionByYearToDate(ArrayList<Transaction> transactions){
+
+        ArrayList<Transaction> allEntries = loadTransactions(transactions);
+
+        for (int i = allEntries.size() - 1; i >= 0; i--) {
+
+            LocalDate currentDate = LocalDate.now();
+
+            int currentYear = currentDate.getYear();
+
+            int allEntireYears = transactions.get(i).getDate().getYear();
+
+            if(allEntireYears == currentYear){
+
+                System.out.println(transactions.get(i));
+
+            }
+        }
 
 
     }
 
+    public static void filterTransactionByPreviousYear(ArrayList<Transaction> transactions){
+
+        ArrayList<Transaction> allEntries = loadTransactions(transactions);
+
+        for (int i = allEntries.size() - 1; i >= 0; i--) {
+
+            LocalDate currentDate = LocalDate.now();
+
+            int currentYear = currentDate.getYear();
+
+            LocalDate earlier = currentDate.minusYears(1);
+
+            int allEntireYears = transactions.get(i).getDate().getYear();
+
+            if(allEntireYears == earlier.getYear()){
+
+                System.out.println(transactions.get(i));
+
+            }
+        }
+    }
+
+    public static void searchByVendor(){
 
 
+    }
 }
