@@ -63,4 +63,8 @@ public class Transaction {
         return this.amount;
     }
 
+    @Override
+    public String toString() {
+        return date + " | " + time + " | " + description + " | " + vendor + " | " + amount ;
+    }
 }

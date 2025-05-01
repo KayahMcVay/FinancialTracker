@@ -9,18 +9,13 @@ public class FinancialTracker {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Transaction transaction = new Transaction(null, null, " ", " ", 0.00);
-
-        Transaction transaction2 = new Transaction(null, null, " ", " ", 0.00);
-
-
         ArrayList<Transaction> transactions = new ArrayList<>();
 
-        displayHomeScreen(scanner, transactions, transaction, transaction2);
+        displayHomeScreen(scanner, transactions);
 
     }
 
-    public static void displayHomeScreen(Scanner scanner, ArrayList<Transaction> transactions, Transaction transaction, Transaction transaction2){
+    public static void displayHomeScreen(Scanner scanner, ArrayList<Transaction> transactions){
 
         while(true) {
 
@@ -37,15 +32,15 @@ public class FinancialTracker {
 
             if (userChoice.equalsIgnoreCase("d")) {
 
-                addDeposit(scanner, transaction, transactions);
+                addDeposit(scanner);
 
             } else if (userChoice.equalsIgnoreCase("p")) {
 
-                addPayment(scanner, transaction, transactions);
+                addPayment(scanner);
 
             } else if (userChoice.equalsIgnoreCase("l")) {
 
-                displayLedger(transactions, scanner, transaction, transaction2);
+                displayLedger(transactions, scanner);
 
             } else if (userChoice.equalsIgnoreCase("x")) {
 
@@ -57,7 +52,7 @@ public class FinancialTracker {
         }
     }
 
-    public static void addDeposit(Scanner scanner, Transaction transaction, ArrayList<Transaction> transactions){
+    public static void addDeposit(Scanner scanner){
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("transactions.csv", true))){
 
@@ -71,8 +66,6 @@ public class FinancialTracker {
 
             LocalDate localDate = LocalDate.parse(date, dateTimeFormatter);
 
-            //transaction.setDate(localDate);
-
             System.out.print("What is the time? (HH:mm:ss): ");
 
             String time = scanner.nextLine();
@@ -81,29 +74,17 @@ public class FinancialTracker {
 
             LocalTime localTime = LocalTime.parse(time, dateTimeFormatter2);
 
-            //transaction.setTime(localTime);
-
             System.out.print("What is the description?: ");
 
             String description = scanner.nextLine();
-
-            //transaction.setDescription(description);
 
             System.out.print("Who is the vendor?: ");
 
             String vendor = scanner.nextLine();
 
-            //transaction.setVendor(vendor);
-
             System.out.print("What is the amount you wish to deposit?: ");
 
             double amount = scanner.nextDouble();
-
-            //transaction.setAmount(amount);
-
-           // transactions.add(new Transaction(transaction.getDate(), transaction.getTime(),
-                   //transaction.getDescription(), transaction.getVendor(), transaction.getAmount()));
-
 
             scanner.nextLine();
 
@@ -111,7 +92,7 @@ public class FinancialTracker {
 
             // "Date | Time | Description | Vendor | Amount" //
 
-            bufferedWriter.write(localDate + " | " + localTime + " | " + description + " | " + vendor + " | " + amount);
+            bufferedWriter.write(localDate + "|" + localTime + "|" + description + "|" + vendor + "|" + amount);
 
 
         } catch (Exception e) {
@@ -123,7 +104,7 @@ public class FinancialTracker {
 
     }
 
-    public static void addPayment(Scanner scanner, Transaction transaction2, ArrayList<Transaction> transactions){
+    public static void addPayment(Scanner scanner){
 
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("transactions.csv", true))){
@@ -138,8 +119,6 @@ public class FinancialTracker {
 
             LocalDate localDate = LocalDate.parse(date, dateTimeFormatter);
 
-            //transaction2.setDate(localDate);
-
             System.out.print("What is the time? (HH:mm:ss): ");
 
             String time = scanner.nextLine();
@@ -148,28 +127,17 @@ public class FinancialTracker {
 
             LocalTime localTime = LocalTime.parse(time, dateTimeFormatter2);
 
-            //transaction2.setTime(localTime);
-
             System.out.print("What is the description?: ");
 
             String description = scanner.nextLine();
-
-            //transaction2.setDescription(description);
 
             System.out.print("Who is the vendor?: ");
 
             String vendor = scanner.nextLine();
 
-            //transaction2.setVendor(vendor);
-
             System.out.print("What is the amount you wish to withdraw?: ");
 
             double amount = scanner.nextDouble();
-
-            //transaction2.setAmount(amount);
-
-            //transactions.add(new Transaction(transaction2.getDate(), transaction2.getTime(),
-                //    transaction2.getDescription(), transaction2.getVendor(), transaction2.getAmount()));
 
             scanner.nextLine();
 
@@ -177,7 +145,7 @@ public class FinancialTracker {
 
             // "Date | Time | Description | Vendor | Amount" //
 
-            bufferedWriter.write(localDate + " | " + localTime + " | " + description + " | " + vendor + " | " + amount);
+            bufferedWriter.write(localDate + "|" + localTime + "|" + description + "|" + vendor + "|" + amount);
 
 
         } catch (Exception e) {
@@ -197,23 +165,19 @@ public class FinancialTracker {
 
             while((line = bufferedReader.readLine()) != null){
 
-
                 String [] parts = line.split("\\|");
 
                 LocalDate date = LocalDate.parse(parts[0]);
 
                 LocalTime time = LocalTime.parse(parts[1]);
 
-                String [] parts2 = line.split("\\|");
+                String description = parts[2];
 
-                String description = parts2[2];
+                String vendor = parts[3];
 
-                String vendor = parts2[3];
-
-                double amount  = Double.parseDouble(parts2[4]);
+                double amount  = Double.parseDouble(parts[4]);
 
                 transactions.add(new Transaction(date, time, description, vendor, amount));
-
 
             }
 
@@ -224,10 +188,9 @@ public class FinancialTracker {
 
         return transactions;
 
-
     }
 
-    public static void displayLedger(ArrayList<Transaction> transactions, Scanner scanner, Transaction transaction, Transaction transaction2){
+    public static void displayLedger(ArrayList<Transaction> transactions, Scanner scanner){
 
         System.out.println("\n-- Ledger Screen --\n");
 
@@ -248,10 +211,12 @@ public class FinancialTracker {
 
         } else if (userChoice.equalsIgnoreCase("d")){
 
-            displayDeposits(transactions, transaction);
+            displayDeposits(transactions);
 
 
         } else if (userChoice.equalsIgnoreCase("p")){
+
+            displayPayments(transactions);
 
 
         } else if (userChoice.equalsIgnoreCase("r")) {
@@ -259,7 +224,7 @@ public class FinancialTracker {
 
         } else if (userChoice.equalsIgnoreCase("h")) {
 
-            displayHomeScreen(scanner, transactions, transaction, transaction2);
+            displayHomeScreen(scanner, transactions);
 
         } else {
             System.out.println("Invalid Input, Try Again!");
@@ -274,36 +239,43 @@ public class FinancialTracker {
 
         for (int i = allEntries.size() - 1; i >= 0; i--) {
 
-            System.out.println(allEntries.get(i));
+            System.out.println(transactions.get(i));
         }
 
     }
 
 
-    public static void displayDeposits(ArrayList<Transaction> transactions, Transaction transaction){
+    public static void displayDeposits(ArrayList<Transaction> transactions){
 
         ArrayList<Transaction> allEntries = loadTransactions(transactions);
 
         for (int i = allEntries.size() - 1; i >= 0; i--) {
 
-            if(transaction.getAmount() > 0); {
+            if(transactions.get(i).getAmount() > 0){
 
-                System.out.println("Date: " + transaction.getDate() + "Amount: "  + transaction.getAmount());
+                System.out.println(transactions.get(i));
 
             }
-
-
         }
-
-
     }
 
-    public static void displayPayments(){
+    public static void displayPayments(ArrayList<Transaction> transactions){
 
+        ArrayList<Transaction> allEntries = loadTransactions(transactions);
 
+        for (int i = allEntries.size() - 1; i >= 0; i--) {
+
+            if(transactions.get(i).getAmount() < 0){
+
+                System.out.println(transactions.get(i));
+
+            }
+        }
     }
 
     public static void reportsScreen(){
+
+
 
 
     }
