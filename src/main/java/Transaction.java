@@ -1,10 +1,11 @@
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Transaction {
 
-    private DateTimeFormatter date;
+    private LocalDate date;
 
-    private DateTimeFormatter time;
+    private LocalTime time;
 
     private String description;
 
@@ -12,7 +13,7 @@ public class Transaction {
 
     private double amount;
 
-    public Transaction(DateTimeFormatter date, DateTimeFormatter time, String description,
+    public Transaction(LocalDate date, LocalTime time, String description,
                        String vendor, double amount) {
         this.date = date;
         this.time = time;
@@ -22,11 +23,11 @@ public class Transaction {
 
     }
 
-    public void setDate(DateTimeFormatter date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public void setTime(DateTimeFormatter time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
@@ -42,12 +43,12 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public DateTimeFormatter getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
-    public DateTimeFormatter getTime() {
-        return this.time; 
+    public LocalTime getTime() {
+        return this.time;
     }
 
     public String getDescription() {
