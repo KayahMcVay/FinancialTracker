@@ -1,21 +1,31 @@
-# Project Title
+# Financial Tracker
 
 ## Description of the Project
 
-Briefly describe what this Java console application does. Mention its purpose and who the intended users are. Explain the main functionality and what problems it aims to solve.
+This Java console application is a simple financial tracker for managing personal or small business transactions. 
+It allows users to add deposits (income) and payments (expenses) by entering transaction details such as date, time, 
+description, vendor, and amount. All entries are stored in a CSV file for persistence and future access. Users can 
+view their full ledger or filter transactions to see only deposits or only payments. The application also provides 
+basic reporting features, including filters for month-to-date, previous month, year-to-date, previous year, and
+vendor-specific searches.
 
-![Class Diagram](path/to/your/class_diagram.png)
+Its primary purpose is to give users a lightweight, offline way to monitor and analyze their finances without relying
+on complex accounting software. The intended users are individuals, freelancers, or small business owners who are 
+comfortable using a command-line interface. The system validates inputs and handles navigation through a menu-driven 
+interface, ensuring ease of use. It solves the problem of financial tracking by offering quick, local data entry and 
+retrieval in a structured format. Overall, it provides a clear and practical tool for users looking to manage their 
+finances in a straightforward, no-frills environment.
 
 ## User Stories
 
-List the user stories that guided the development of your application. Format these stories as: "As a [type of user], I want [some goal] so that [some reason]."
-
-- As a user, I want to be able to input my data, so that the application can process it accordingly.
-- As a user, I want to receive immediate feedback, so I can understand what to do next.
+- As a user, I want to add deposit entries with details, so that I can track my income.  
+- As a user, I want to add payment (debit) entries, so that I can track my spending.
+- As a user, I want to view a ledger that shows all transactions, so that I can review my financial activity.
+- As a user, I want to view only deposits or only payments, so that I can filter my transactions.
+- As a user, I want to generate reports by date or vendor, so I can analyze my financial patterns.
+- As a user, I want to return to the home screen or exit the application at any time, for navigation flexibility.
 
 ## Setup
-
-Instructions on how to set up and run the project using IntelliJ IDEA.
 
 ### Prerequisites
 
@@ -34,38 +44,34 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Technologies Used
 
-- Java: Mention the version you are using.
-- Any additional libraries or frameworks used in the project.
+- Java: 17
+- java.io.*; 
+- java.time.LocalDate; 
+- java.time.LocalTime; 
+- java.time.format.DateTimeFormatter; 
+- java.util.ArrayList; 
+- java.util.Scanner;
 
 ## Demo
-
-Include screenshots or GIFs that show your application in action. Use tools like [Giphy Capture](https://giphy.com/apps/giphycapture) to record a GIF of your application.
 
 ![Application Screenshot](path/to/your/screenshot.png)
 
 ## Future Work
 
-Outline potential future enhancements or functionalities you might consider adding:
-
-- Additional feature to be developed.
-- Improvement of current functionalities.
+- Authentication System
+- Transaction Categories
+- Summary Dashboard 
+- GUI Interface
+- Recurring Transactions
+- Multi-Currency & Localization Support
 
 ## Resources
 
-List resources such as tutorials, articles, or documentation that helped you during the project.
-
-- [Java Programming Tutorial](https://www.example.com)
-- [Effective Java](https://www.example.com)
-
-## Team Members
-
-- **Name 1** - Specific contributions or roles.
-- **Name 2** - Specific contributions or roles.
+- [GeeksforGeeks](https://www.geeksforgeeks.org/)
+- [Stack Overflow](https://stackoverflow.com/)
+- [W3schools](https://www.w3schools.com/)
+- [ChatGPT](https://chatgpt.com/)
 
 ## Thanks
 
-Express gratitude towards those who provided help, guidance, or resources:
-
-- Thank you to [Mentor's Name] for continuous support and guidance.
-- A special thanks to all teammates for their dedication and teamwork.
- 
+- Thank you to Raymond Maroun for continuous support and guidance!
