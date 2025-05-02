@@ -1,6 +1,6 @@
 # Financial Tracker
 
-## Description of the Project
+## Project Description
 
 This Java console application is a simple financial tracker for managing personal or small business transactions. 
 It allows users to add deposits (income) and payments (expenses) by entering transaction details such as date, time, 
@@ -54,7 +54,15 @@ Follow these steps to get your application running within IntelliJ IDEA:
 
 ## Demo
 
-![Application Screenshot](path/to/your/screenshot.png)
+![Ex - Step 1](screenshot.png)
+![Ex - Step 2](screenshot1.png)
+![Ex - Step 3](screenshot2.png)
+![Ex - Step 4](screenshot3.png)
+![Ex - Step 5](screenshot4.png)
+![Ex - Step 6](screenshot5.png)
+![Ex - Step 7](screenshot6.png)
+![Ex - Step 8](screenshot7.png)
+![Ex - Step 9](screenshot8.png)
 
 ## Future Work
 
