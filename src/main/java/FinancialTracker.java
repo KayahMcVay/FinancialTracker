@@ -4,12 +4,17 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class FinancialTracker {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         ArrayList<Transaction> transactions = new ArrayList<>();
+
+        LocalDate yearStartDate = LocalDate.now().withDayOfYear(1);
+
+        LocalDate YearEndDate = LocalDate.now();
 
         displayHomeScreen(scanner, transactions);
 
@@ -58,9 +63,9 @@ public class FinancialTracker {
 
             System.out.println("\nEnter following information regarding current deposit:\n");
 
-            System.out.print("What is the date? (MM/dd/yyyy):");
+            System.out.print("What is the date? (MM/dd/yyyy): ");
 
-            String date = scanner.nextLine();
+            String date = scanner.nextLine().trim();
 
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
@@ -68,7 +73,7 @@ public class FinancialTracker {
 
             System.out.print("What is the time? (HH:mm:ss): ");
 
-            String time = scanner.nextLine();
+            String time = scanner.nextLine().trim();
 
             DateTimeFormatter dateTimeFormatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
 
@@ -76,11 +81,11 @@ public class FinancialTracker {
 
             System.out.print("What is the description?: ");
 
-            String description = scanner.nextLine();
+            String description = scanner.nextLine().trim();
 
             System.out.print("Who is the vendor?: ");
 
-            String vendor = scanner.nextLine();
+            String vendor = scanner.nextLine().trim();
 
             System.out.print("What is the amount you wish to deposit?: ");
 
@@ -111,9 +116,9 @@ public class FinancialTracker {
 
             System.out.println("\nEnter following information regarding current withdraw:\n");
 
-            System.out.print("What is the date? (MM/dd/yyyy):");
+            System.out.print("What is the date? (MM/dd/yyyy): ");
 
-            String date = scanner.nextLine();
+            String date = scanner.nextLine().trim();
 
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
@@ -121,7 +126,7 @@ public class FinancialTracker {
 
             System.out.print("What is the time? (HH:mm:ss): ");
 
-            String time = scanner.nextLine();
+            String time = scanner.nextLine().trim();
 
             DateTimeFormatter dateTimeFormatter2 = DateTimeFormatter.ofPattern("HH:mm:ss");
 
@@ -129,11 +134,11 @@ public class FinancialTracker {
 
             System.out.print("What is the description?: ");
 
-            String description = scanner.nextLine();
+            String description = scanner.nextLine().trim();
 
             System.out.print("Who is the vendor?: ");
 
-            String vendor = scanner.nextLine();
+            String vendor = scanner.nextLine().trim();
 
             System.out.print("What is the amount you wish to withdraw?: ");
 
@@ -238,7 +243,8 @@ public class FinancialTracker {
 
         for (int i = allEntries.size() - 1; i >= 0; i--) {
 
-            System.out.println(transactions.get(i));
+            System.out.println(allEntries.get(i));
+
         }
 
     }
@@ -250,9 +256,9 @@ public class FinancialTracker {
 
         for (int i = allEntries.size() - 1; i >= 0; i--) {
 
-            if(transactions.get(i).getAmount() > 0){
+            if(allEntries.get(i).getAmount() > 0){
 
-                System.out.println(transactions.get(i));
+                System.out.println(allEntries.get(i));
 
             }
         }
@@ -264,9 +270,9 @@ public class FinancialTracker {
 
         for (int i = allEntries.size() - 1; i >= 0; i--) {
 
-            if(transactions.get(i).getAmount() < 0){
+            if(allEntries.get(i).getAmount() < 0){
 
-                System.out.println(transactions.get(i));
+                System.out.println(allEntries.get(i));
 
             }
         }
@@ -285,7 +291,7 @@ public class FinancialTracker {
         System.out.println("0 - Back");
 
 
-        System.out.print("\nChose one of the above options:\n");
+        System.out.print("\nChose one of the above options: ");
 
         String userChoice = scanner.nextLine();
 
@@ -325,7 +331,9 @@ public class FinancialTracker {
                 displayReportsScreen(scanner, transactions);
 
             default:
+
                 System.out.println("Invalid Input, Try Again!");
+
                 displayReportsScreen(scanner, transactions);
 
         }
@@ -341,14 +349,22 @@ public class FinancialTracker {
 
             int currentYear = currentDate.getYear();
 
-            int allEntireYears = transactions.get(i).getDate().getYear();
+            LocalDate monthStartDate = LocalDate.now().withDayOfMonth(1);
 
-            if(transactions.get(i).getDate().getMonth().equals(currentDate.getMonth()) && allEntireYears == currentYear){
+            LocalDate monthEndDate = LocalDate.now();
 
-                System.out.println(transactions.get(i));
+            int allEntryYears = allEntries.get(i).getDate().getYear();
+
+            LocalDate allEntryDates = allEntries.get(i).getDate();
+
+            if(allEntryDates.isAfter(monthStartDate) && allEntryDates.isBefore(monthEndDate) && allEntryYears == currentYear){
+
+                System.out.println(allEntries.get(i));
 
             }
         }
+
+
 
     }
 
@@ -362,13 +378,17 @@ public class FinancialTracker {
 
             int currentYear = currentDate.getYear();
 
-            LocalDate earlier = currentDate.minusMonths(1);
+            LocalDate previousMonthStartDate = currentDate.minusMonths(1).withDayOfMonth(1);
 
-            int allEntireYears = transactions.get(i).getDate().getYear();
+            LocalDate previousMonthEndDate = currentDate.minusMonths(1).withDayOfMonth(30);
 
-            if(transactions.get(i).getDate().getMonth().equals(earlier.getMonth()) && allEntireYears == currentYear){
+            int allEntryYears = allEntries.get(i).getDate().getYear();
 
-                System.out.println(transactions.get(i));
+            LocalDate allEntryDates = allEntries.get(i).getDate();
+
+            if(allEntryDates.isAfter(previousMonthStartDate) && allEntryDates.isBefore(previousMonthEndDate) && allEntryYears == currentYear){
+
+                System.out.println(allEntries.get(i));
 
             }
         }
@@ -382,13 +402,13 @@ public class FinancialTracker {
 
             LocalDate currentDate = LocalDate.now();
 
-            int currentYear = currentDate.getYear();
+            LocalDate yearStartDate = currentDate.withMonth(1).withDayOfMonth(1);
 
-            int allEntireYears = transactions.get(i).getDate().getYear();
+            LocalDate allEntryDates = allEntries.get(i).getDate();
 
-            if(allEntireYears == currentYear){
+            if(allEntryDates.isAfter(yearStartDate) && allEntryDates.isBefore(currentDate)){
 
-                System.out.println(transactions.get(i));
+                System.out.println(allEntries.get(i));
 
             }
         }
@@ -408,17 +428,20 @@ public class FinancialTracker {
 
             LocalDate earlier = currentDate.minusYears(1);
 
-            int allEntireYears = transactions.get(i).getDate().getYear();
+            int allEntireYears = allEntries.get(i).getDate().getYear();
 
             if(allEntireYears == earlier.getYear()){
 
-                System.out.println(transactions.get(i));
+                System.out.println(allEntries.get(i));
 
             }
         }
     }
 
     public static void searchByVendor(){
+
+
+        
 
 
     }
