@@ -5,19 +5,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Main class to Start the financial tracker //
 public class FinancialTracker {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Transaction> transactions = new ArrayList<>();
-        displayHomeScreen(scanner, transactions);
+        displayHomeScreen(scanner, transactions); // Launch Home Screen //
     }
 
+    // Displays main menu & handles user input //
     public static void displayHomeScreen(Scanner scanner, ArrayList<Transaction> transactions){
 
         while(true) {
 
             System.out.println("\n-- Home Screen --\n");
 
+            // User choices //
             System.out.println("D - Add Deposit");
             System.out.println("P - Make Payment (Debit)");
             System.out.println("L - Ledger");
@@ -27,31 +30,34 @@ public class FinancialTracker {
             String userChoice = scanner.nextLine();
             System.out.println("\n---------------------------------------------------------------------------------");
 
+            // Handle each option //
             if (userChoice.equalsIgnoreCase("d")) {
 
-                addDeposit(scanner);
+                addDeposit(scanner); // Add income //
 
             } else if (userChoice.equalsIgnoreCase("p")) {
 
-                addPayment(scanner);
+                addPayment(scanner); // Add expense //
 
             } else if (userChoice.equalsIgnoreCase("l")) {
 
-                displayLedger(transactions, scanner);
+                displayLedger(transactions, scanner); // View ledger //
 
             } else if (userChoice.equalsIgnoreCase("x")) {
 
-                break;
+                break; // Exit app //
 
             } else
                 System.out.println("\nInvalid Input, Try Again!\n");
         }
     }
 
+    // Adds deposit entry to transaction.csv //
     public static void addDeposit(Scanner scanner){
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("transactions.csv", true))){
 
+            // Prompt user for input + Date & time parsing + Get transaction details //
             System.out.println("\nEnter following information regarding current deposit:\n");
 
             System.out.print("What is the date? (MM/dd/yyyy): ");
@@ -73,11 +79,12 @@ public class FinancialTracker {
             String vendor = scanner.nextLine().trim();
 
             System.out.print("What is the amount you wish to deposit?: ");
-            double amount = scanner.nextDouble();
-            scanner.nextLine();
+            double amount = scanner.nextDouble(); // Positive for deposit //
+            scanner.nextLine(); // Consume newline //
 
+            // Write transaction to file //
             bufferedWriter.newLine();
-            // "Date | Time | Description | Vendor | Amount" //
+            // Line format: "Date | Time | Description | Vendor | Amount" //
             bufferedWriter.write(localDate + "|" + localTime + "|" + description + "|" + vendor + "|" + amount);
 
         } catch (Exception e) {
@@ -86,6 +93,7 @@ public class FinancialTracker {
         }
     }
 
+    // Adds a payment entry to transaction.csv //
     public static void addPayment(Scanner scanner){
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("transactions.csv", true))){
@@ -111,11 +119,12 @@ public class FinancialTracker {
             String vendor = scanner.nextLine().trim();
 
             System.out.print("What is the amount you wish to withdraw?: ");
-            double amount = scanner.nextDouble();
-            scanner.nextLine();
+            double amount = scanner.nextDouble(); // Negative for withdraw //
+            scanner.nextLine(); // Consume newline //
 
+            // write transaction to file //
             bufferedWriter.newLine();
-            // "Date | Time | Description | Vendor | Amount" //
+            // Line format: "Date | Time | Description | Vendor | Amount" //
             bufferedWriter.write(localDate + "|" + localTime + "|" + description + "|" + vendor + "|" + amount);
 
         } catch (Exception e) {
@@ -124,6 +133,7 @@ public class FinancialTracker {
         }
     }
 
+    // Reads all transactions from CSV into memory //
     public static ArrayList<Transaction> loadTransactions(ArrayList<Transaction> transactions){
 
         transactions.clear(); // Clear Old Entries //
@@ -153,9 +163,12 @@ public class FinancialTracker {
         return transactions;
     }
 
+    // Displays ledger menu to user //
     public static void displayLedger(ArrayList<Transaction> transactions, Scanner scanner){
 
         System.out.println("\n-- Ledger Screen --\n");
+
+        // Options: All, Deposits, Payments, Reports, Home //
 
         System.out.println("A - All");
         System.out.println("D - Deposits");
@@ -190,7 +203,7 @@ public class FinancialTracker {
 
              case "H":
 
-                 return; // go back to Home Screen //
+                 return; // back to Home Screen //
 
              default:
 
@@ -198,7 +211,7 @@ public class FinancialTracker {
          }
     }
 
-
+    // Displays all transactions (Newest - Oldest) //
     public static void displayAllEntries(ArrayList<Transaction> transactions){
 
         ArrayList<Transaction> allEntries = loadTransactions(transactions);
@@ -211,7 +224,7 @@ public class FinancialTracker {
         System.out.println("\n-------------------------------------------------------------------------------------\n");
     }
 
-
+    // Displays only positive transactions (Newest - Oldest) //
     public static void displayDeposits(ArrayList<Transaction> transactions){
 
         ArrayList<Transaction> allEntries = loadTransactions(transactions);
@@ -228,6 +241,7 @@ public class FinancialTracker {
         System.out.println("\n-------------------------------------------------------------------------------------\n");
     }
 
+    // Displays only negative transactions (Newest - Oldest) //
     public static void displayPayments(ArrayList<Transaction> transactions){
 
         ArrayList<Transaction> allEntries = loadTransactions(transactions);
@@ -244,6 +258,7 @@ public class FinancialTracker {
         System.out.println("\n-------------------------------------------------------------------------------------\n");
     }
 
+    // Allows user to choose a report type //
     public static void displayReportsScreen(Scanner scanner, ArrayList<Transaction> transactions){
 
         System.out.println("\n-- Reports Screen --\n");
@@ -295,6 +310,7 @@ public class FinancialTracker {
         }
     }
 
+    // Filters transaction for current month (Newest - Oldest Entry) //
     public static void filterTransactionByMonthToDate(ArrayList<Transaction> transactions){
 
         ArrayList<Transaction> allEntries = loadTransactions(transactions);
@@ -316,6 +332,7 @@ public class FinancialTracker {
         System.out.println("\n-------------------------------------------------------------------------------------\n");
     }
 
+    // Filters transaction for last month (Newest - Oldest Entry) //
     public static void filterTransactionByPreviousMonth(ArrayList<Transaction> transactions){
 
         ArrayList<Transaction> allEntries = loadTransactions(transactions);
@@ -338,6 +355,7 @@ public class FinancialTracker {
         System.out.println("\n-------------------------------------------------------------------------------------\n");
     }
 
+    // Filters transaction for current year (Newest - Oldest Entry) //
     public static void filterTransactionByYearToDate(ArrayList<Transaction> transactions){
 
         ArrayList<Transaction> allEntries = loadTransactions(transactions);
@@ -358,6 +376,7 @@ public class FinancialTracker {
         System.out.println("\n-------------------------------------------------------------------------------------\n");
     }
 
+    // Filters transaction for previous year (Newest - Oldest Entry) //
     public static void filterTransactionByPreviousYear(ArrayList<Transaction> transactions){
 
         ArrayList<Transaction> allEntries = loadTransactions(transactions);
@@ -379,6 +398,7 @@ public class FinancialTracker {
         System.out.println("\n-------------------------------------------------------------------------------------\n");
     }
 
+    // Searches for transaction by vendor name (Newest - Oldest Entry) //
     public static void searchByVendor(Scanner scanner, ArrayList<Transaction> transactions){
 
         ArrayList<Transaction> allEntries = loadTransactions(transactions);
